@@ -13,20 +13,21 @@ def home():
     return render_template('pokehome.html')
 
 @app.route('/hasil',methods=['POST','GET'])
-def hasil():
+def hasilPoke():
     if request.method == 'POST':
-        pokebody = request.form
-        favor = pokebody['name'].capitalize()
+        body = request.form
+        fav = body['name'].capitalize()
 
-        if favor not in list(df['Name']):
+        if fav not in list(df['Name']):
             return redirect('/notfound')
-        index = df[df['Name']==favor].index.values[0]
+        index = df[df['Name']==fav].index.values[0]
+
         pokerekomen = sorted(list(enumerate(cos_score[index])),key=lambda x:x[1],reverse=True) 
-        pokefavorit = df.iloc[index][col]
+        pokefav = df.iloc[index][col]
         # print(poke_fav)
         pokelain = []
         for i in pokerekomen:
-            pokex = {}
+            poke_x = {}
             if i[0] == index:
                 continue
             else:
@@ -35,16 +36,16 @@ def hasil():
                 tipe = df.iloc[i[0]]['Type 1']
                 gen = df.iloc[i[0]]['Generation']
                 legend = df.iloc[i[0]]['Legendary']
-                pokex['num'] = num
-                pokex['name'] = name
-                pokex['tipe'] = tipe
-                pokex['gen'] = gen
-                pokex['legend'] = legend
-            pokelain.append(pokex)
+                poke_x['num'] = num
+                poke_x['name'] = name
+                poke_x['tipe'] = tipe
+                poke_x['gen'] = gen
+                poke_x['legend'] = legend
+            pokelain.append(poke_x)
             if len(pokelain) == 6:
                 break
         # print(poke_lain)
-    return render_template('rekomen.html',rekomen = pokelain, favor = pokefavorit)
+    return render_template('hasil.html',rekomen = pokelain, favoritku = pokefav)
 
 
 @app.route('/notfound')
