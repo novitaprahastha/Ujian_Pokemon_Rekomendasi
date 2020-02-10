@@ -24,7 +24,7 @@ def hasilPoke():
 
         pokerekomen = sorted(list(enumerate(cos_score[index])),key=lambda x:x[1],reverse=True) 
         pokefav = df.iloc[index][col]
-        # print(poke_fav)
+
         pokelain = []
         for i in pokerekomen:
             poke_x = {}
@@ -44,7 +44,7 @@ def hasilPoke():
             pokelain.append(poke_x)
             if len(pokelain) == 6:
                 break
-        # print(poke_lain)
+       
     return render_template('hasil.html',rekomen = pokelain, favoritku = pokefav)
 
 
